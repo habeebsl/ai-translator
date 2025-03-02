@@ -4,7 +4,7 @@ import { useTranslator } from "@/stores/translatorStore"
 const BASE_URL = import.meta.env.VITE_API_BASE
 
 const apiClient = axios.create({
-	baseURL: `http://${BASE_URL}/api`,
+	baseURL: `https://${BASE_URL}/api`,
 	headers: {
 		'Content-Type': 'application/json'
 	}
@@ -25,7 +25,7 @@ export const transcribeWebSocketConnect = {
     
     init() {
         if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-            this.socket = new WebSocket(`ws://${BASE_URL}/ws/transcribe`);
+            this.socket = new WebSocket(`wss://${BASE_URL}/ws/transcribe`);
             
             this.socket.addEventListener('open', () => {
                 console.log('Connected to Transcription WebSocket server');
@@ -39,7 +39,7 @@ export const transcribeWebSocketConnect = {
             this.socket.addEventListener('error', (event) => {
                 const translatorStore = useTranslator()
                 translatorStore.activateMic = false
-                translatorStore.transcriptErrorMessage = "Error occured while generating transcript"
+                translatorStore.transcriptErrorMessage = "Can't connect to server. Check your internet and try again."
                 translatorStore.showTranscriptError = true
                 console.error('WebSocket error:', event);
             });
@@ -81,7 +81,7 @@ export const translateWebsocketConnect = {
 
     init() {
         if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-            this.socket = new WebSocket(`ws://${BASE_URL}/ws/translate`);
+            this.socket = new WebSocket(`wss://${BASE_URL}/ws/translate`);
             
             this.socket.addEventListener('open', () => {
                 console.log('Connected to Translation WebSocket server');
@@ -95,7 +95,7 @@ export const translateWebsocketConnect = {
             this.socket.addEventListener('error', (event) => {
                 const translatorStore = useTranslator()
                 translatorStore.isProcessingQueue = false
-                translatorStore.translateErrorMessage = "An error occured while generating translation"
+                translatorStore.translateErrorMessage = "Can't connect to server. Check your internet and try again."
                 translatorStore.showTranslateError = true
                 console.error('WebSocket error:', event);
             });

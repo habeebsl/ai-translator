@@ -170,7 +170,7 @@ onMounted(() => {
             }
         } catch (error) {
             console.error("Error parsing transcription data:", error);
-            translatorStore.transcriptErrorMessage = "Error processing transcription data";
+            translatorStore.transcriptErrorMessage = "Can't connect to server. Check your internet and try again.";
             translatorStore.showTranscriptError = true;
         }
     });
@@ -183,7 +183,7 @@ onMounted(() => {
 
             if (message.error) {
                 translatorStore.isProcessingQueue = false;
-                translatorStore.translateErrorMessage = "An error occurred while generating translation";
+                translatorStore.translateErrorMessage = "Can't connect to server. Check your internet and try again.";
                 translatorStore.showTranslateError = true;
 
                 translatorStore.clearTranslationTimeout();
