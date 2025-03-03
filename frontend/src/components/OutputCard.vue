@@ -94,19 +94,19 @@ function playAudio(audioBlob) {
         translatorStore.audioPlaying = false;
     };
 
-    audio.value.onerror = () => {
-        console.error("Audio playback error");
-        URL.revokeObjectURL(audioUrl);
-        translatorStore.audioPlaying = false;
-        translatorStore.errorMessage = "Error playing audio";
-        translatorStore.showError = true;
-        setTimeout(() => {
-            translatorStore.showError = false;
-        }, 3500);
-    };
-
-    translatorStore.audioPlaying = true
-    audio.value.play();
+    translatorStore.audioPlaying = true;
+    
+    audio.value.play()
+        .catch(error => {
+            console.error("Audio playback error:", error);
+            URL.revokeObjectURL(audioUrl);
+            translatorStore.audioPlaying = false;
+            translatorStore.errorMessage = "Error playing audio";
+            translatorStore.showError = true;
+            setTimeout(() => {
+                translatorStore.showError = false;
+            }, 3500);
+        });
 }
 
 const playTranslation = async () => {
@@ -264,5 +264,12 @@ watch(
 
 svg {
     fill: #D3D3D4;
+}
+
+@media (hover: none) {
+  .play-button:hover {
+    background-color: initial;
+    color: initial;
+  }
 }
 </style>

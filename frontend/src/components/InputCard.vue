@@ -23,8 +23,22 @@ const closeError = () => {
 
 watch(
     () => translatorStore.audioTranscript,
-    (newVal) => {
-        userInput.value += newVal
+    (newVal, oldVal) => {
+        if (newVal && newVal !== oldVal) {
+            userInput.value += newVal
+
+            translatorStore.audioTranscript = '';
+            
+            setTimeout(() => {
+                if (translatorStore.userInput.trim()) {
+                    translatorStore.addToTranslationQueue();
+                    
+                    if (!translatorStore.isProcessingQueue) {
+                        translatorStore.processTranslationQueue();
+                    }
+                }
+            }, 300);
+        }
     }
 )
 
@@ -119,10 +133,18 @@ watch(
 }
 
 .speech-button.active {
-    background-color: #39435c;
+    background-color: #293146;
 }
 
 svg {
     fill: #D3D3D4;
+}
+
+
+@media (hover: none) {
+  .speech-button:hover {
+    background-color: initial;
+    color: initial;
+  }
 }
 </style>

@@ -12,8 +12,11 @@ const recording = ref(false)
 const audioContext = ref(null)
 const analyser = ref(null)
 const audioSource = ref(null)
-const silenceTimer = ref(null)
 const cleanupInterval = ref(null)
+
+const silenceThreshold = ref(20)
+const silenceCounter = ref(0)
+const maxSilenceDuration = ref(15)
 
 const startRecording = async (language) => {
     await transcribeWebSocketConnect.ensureWebSocketConnection();
@@ -77,6 +80,9 @@ const detectVoiceActivity = () => {
 
     const bufferLength = analyser.value.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
+    
+    let lastActiveTime = Date.now();
+    let silenceDetected = false;
 
     const checkAudioLevel = () => {
         if (!analyser.value || !recording.value) return;
@@ -88,6 +94,7 @@ const detectVoiceActivity = () => {
             sum += dataArray[i];
         }
         const averageVolume = sum / bufferLength;
+        console.log(averageVolume)
 
         const button = document.querySelector('.speech-button');
         if (button) {
@@ -95,6 +102,35 @@ const detectVoiceActivity = () => {
             button.style.transform = `scale(${scale})`;
             const glowOpacity = averageVolume / 255 * 0.8;
             button.style.setProperty('--glow-opacity', glowOpacity);
+        }
+
+        if (averageVolume < silenceThreshold.value) {
+            if (!silenceDetected) {
+                silenceDetected = true;
+                silenceCounter.value = 0;
+                lastActiveTime = Date.now();
+            } else {
+                const currentTime = Date.now();
+                const silenceDuration = (currentTime - lastActiveTime) / 1000;
+                
+                silenceCounter.value = silenceDuration;
+                
+                if (silenceDuration >= maxSilenceDuration.value && translatorStore.activateMic) {
+                    console.log("Silence detected for too long, turning off mic");
+                    translatorStore.activateMic = false;
+                    
+                    translatorStore.errorMessage = "Microphone turned off due to inactivity";
+                    translatorStore.showError = true;
+                    setTimeout(() => {
+                        translatorStore.showError = false;
+                    }, 3500);
+                    
+                    return;
+                }
+            }
+        } else {
+            silenceDetected = false;
+            lastActiveTime = Date.now();
         }
 
         if (recording.value) {
@@ -113,11 +149,6 @@ const stopRecording = () => {
     if (button) {
         button.style.transform = '';
         button.style.setProperty('--glow-opacity', 0);
-    }
-
-    if (silenceTimer.value) {
-        clearTimeout(silenceTimer.value);
-        silenceTimer.value = null;
     }
 
     if (mediaRecorder.value) {
