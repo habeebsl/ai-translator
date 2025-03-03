@@ -12,6 +12,7 @@
 - Whisper-1 (OpenAI): For generating transcriptions from audio.
 - DeepL: For Translation.
 - TTS-1 (OpenAI): For speech generation.
+- gpt-4o-mini (OpenAI): For Confirming generated transcript.
 
 
  # Security Considerations
