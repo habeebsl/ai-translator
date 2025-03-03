@@ -15,7 +15,7 @@ api = APIRouter()
 
 @api.post("/generate-speech")
 async def speech_endpoint(request: TextToSpeechRequest):
-    print("Request Received")
+    """Generates speech from text and returns an MP3 audio stream."""
     audio_data = generate_speech_audio(request.text)
     
     audio_bytes = io.BytesIO(audio_data)
@@ -28,4 +28,5 @@ async def speech_endpoint(request: TextToSpeechRequest):
 
 @api.get("/health")
 def health_check():
+    """Health check endpoint for monitoring or CronJobs."""
     return {"status": "ok"}

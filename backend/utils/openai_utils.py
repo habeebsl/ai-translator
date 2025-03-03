@@ -35,7 +35,6 @@ async def generate_corrected_transcript(system_prompt, audio_file, language):
 
 async def transcribe(audio_chunk, language: str):
     audio_buffer = io.BytesIO(audio_chunk)
-    print("converted to buffer")
     audio_buffer.name = "audio.webm"
     response = client.audio.transcriptions.create(
         file=audio_buffer,

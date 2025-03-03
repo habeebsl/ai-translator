@@ -10,6 +10,23 @@ from silero_vad.utils_vad import get_speech_timestamps
 model = load_silero_vad()
 
 def detect_speech(audio_bytes):
+    """
+    Detects the presence of speech in an audio file.
+
+    Parameters:
+    - audio_bytes (bytes): The raw audio data in WebM format.
+
+    Process:
+    1. Converts the WebM audio to WAV format.
+    2. Reads the audio data and ensures it is in the correct format.
+    3. Converts stereo audio to mono (if applicable).
+    4. Resamples the audio to 16 kHz if necessary.
+    5. Uses a speech detection model to determine if the audio contains speech.
+
+    Returns:
+    - bool: True if speech is detected, False otherwise.
+    """
+        
     audio = AudioSegment.from_file(io.BytesIO(audio_bytes), format="webm")
     wav_io = io.BytesIO()
     audio.export(wav_io, format="wav")
