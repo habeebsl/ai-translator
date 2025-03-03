@@ -1,4 +1,5 @@
 # User Guide
+This web-based prototype enables real-time, multilingual translation between patients and healthcare providers. It convert spoken input into text, provide a live transcript, and offer a translated version with audio playback.
 
 ## Main Features
 - **Speak Button**: Click the **Mic** button to enable real-time audio transcription. Click again to turn it off.
