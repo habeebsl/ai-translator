@@ -4,7 +4,7 @@ This web-based prototype enables real-time, multilingual translation between pat
 ## Main Features
 - **Speak Button**: Click the **Mic** button to enable real-time audio transcription. Click again to turn it off.
 - **Language Selector**: Choose a language for both input and output.
-- **User Input**: Type directly into the text area for real-time transcription.
+- **User Input**: Type directly into the text area for real-time translation.
 - **Clear Input**: Click the **Clear** button to erase the input.
 - **Speech Button**: Generate audio from the translated text.  
   **Actions:**  
