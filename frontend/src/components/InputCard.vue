@@ -132,19 +132,18 @@ watch(
     background-color: #39435c;
 }
 
-.speech-button.active {
-    background-color: #293146;
-}
-
 svg {
     fill: #D3D3D4;
 }
 
-
 @media (hover: none) {
-  .speech-button:hover {
-    background-color: initial;
-    color: initial;
-  }
+    .speech-button:hover {
+        background-color: initial;
+        color: initial;
+    }
+}
+
+.speech-button.active {
+    background-color: #293146;
 }
 </style>

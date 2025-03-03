@@ -257,6 +257,12 @@ watch(
     background-color: #39435c;
 }
 
+@media (hover: none) {
+    .play-button:hover:not(:disabled) {
+        background-color: initial;
+    }
+}
+
 .play-button:disabled {
     cursor: not-allowed;
     opacity: 0.5;
@@ -264,12 +270,5 @@ watch(
 
 svg {
     fill: #D3D3D4;
-}
-
-@media (hover: none) {
-  .play-button:hover {
-    background-color: initial;
-    color: initial;
-  }
 }
 </style>

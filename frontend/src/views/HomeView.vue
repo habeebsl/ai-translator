@@ -16,7 +16,7 @@ const cleanupInterval = ref(null)
 
 const silenceThreshold = ref(20)
 const silenceCounter = ref(0)
-const maxSilenceDuration = ref(15)
+const maxSilenceDuration = ref(20)
 
 const startRecording = async (language) => {
     await transcribeWebSocketConnect.ensureWebSocketConnection();
@@ -94,7 +94,6 @@ const detectVoiceActivity = () => {
             sum += dataArray[i];
         }
         const averageVolume = sum / bufferLength;
-        console.log(averageVolume)
 
         const button = document.querySelector('.speech-button');
         if (button) {
