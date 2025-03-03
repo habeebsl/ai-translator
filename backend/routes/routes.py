@@ -25,3 +25,7 @@ async def speech_endpoint(request: TextToSpeechRequest):
         audio_bytes, 
         media_type="audio/mp3"
     )
+
+@api.get("/health")
+def health_check():
+    return {"status": "ok"}
