@@ -8,6 +8,7 @@ python-dotenv
 requests
 silero-vad
 soundfile
-torch
 uvicorn
 audioop-lts
+websockets
+wsproto
